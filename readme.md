@@ -2,7 +2,7 @@
  * @Author: PacificD
  * @Date: 2021-10-07 12:08:11
  * @LastEditors: PacificD
- * @LastEditTime: 2021-10-07 21:23:07
+ * @LastEditTime: 2021-10-07 22:06:23
  * @Description: 
 -->
 # todoList-app
@@ -11,9 +11,14 @@
 - jwt
 - tpyeorm
 - swagger
-### func
-- login/logout
+### api
+- login
+- logout
 - register
+- add todo
+- delete todo
+- update todo
+- getAll todo
 ## client
 ### design
 - 拟态
