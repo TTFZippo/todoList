@@ -1,0 +1,133 @@
+/* TodoList style sheet */
+.todo-list {
+    --theme: #f2f3f7;
+    --light: rgba(255, 255, 255, 0.6);
+    --lighter: #fff;
+    --dark: #dde4ef;
+    --darker: #d7dee9;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 48vw;
+    height: 86vh;
+    border-radius: 2%;
+    background-color: var(--theme);
+    box-shadow: -15px -15px 24px var(--lighter),
+        15px 15px 24px var(--dark) !important;
+}
+
+.header {
+    position: relative;
+    width: 100%;
+}
+
+.header>h1 {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    font-size: 2vw;
+    font-weight: bolder;
+    font-family: "FuturaBT-Medium";
+    letter-spacing: 0.3vw;
+    text-shadow: 2px 2px 4px rgb(128 128 128 / 60%);
+    user-select: none;
+    transform: translate(-50%, -50%);
+}
+
+.github {
+    width: 1.2vw;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.user {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    float: right;
+    margin-right: 2vw;
+    margin-top: 6vh;
+}
+
+.user>p {
+    margin: 0;
+    font-size: 0.8vw;
+    font-weight: bold;
+    font-family: "FuturaBT-Medium";
+}
+
+.user-icon {
+    width: 1.2vw;
+    margin: 0 0.4vw;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.user>p:hover {
+    color: rgb(236, 38, 38);
+    cursor: pointer;
+}
+
+.func {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    width: 100%;
+    height: 4vh;
+    margin-top: 5vh;
+}
+
+.all-done {
+    height: 4vh;
+    padding: 0 1vw;
+    font-size: 1vw;
+    text-align: center;
+    font-family: "FuturaBT-Medium";
+    user-select: none;
+    color: rgb(61, 61, 61);
+    line-height: 4vh;
+    border-radius: 2%;
+    background-color: var(--theme);
+    box-shadow: -7px -7px 7px var(--lighter),
+        7px 7px 7px var(--dark) !important;
+    cursor: pointer;
+}
+
+.all-done:hover {
+    box-shadow: inset -7px -7px 7px var(--lighter),
+        inset 7px 7px 7px var(--dark) !important;
+}
+
+.body {
+    width: 100%;
+    height: 65vh;
+    margin-top: 4vh;
+    border-radius: 4%;
+    background-color: var(--theme);
+    box-shadow: -7px -7px 7px var(--light),
+        7px 7px 7px var(--dark) !important;
+    overflow-y: scroll;
+}
+
+.body::-webkit-scrollbar {
+    /*滚动条整体样式*/
+    width: 0.5vw;
+    /*高宽分别对应横竖滚动条的尺寸*/
+    height: 1px;
+}
+
+.body::-webkit-scrollbar-thumb {
+    /*滚动条里面小方块*/
+    border-radius: 100px;
+    box-shadow: inset 0 0 5px rgba(29, 29, 29, 0.2);
+    -webkit-box-shadow: inset 0 0 5px rgba(29, 29, 29, 0.2);
+    background: #808080;
+}
+
+.body::-webkit-scrollbar-track {
+    /*滚动条里面轨道*/
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+    -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    background: #EDEDED;
+}

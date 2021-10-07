@@ -1,0 +1,23 @@
+/* tooltip style sheet */
+.tooltip {
+    position: absolute;
+    padding: 0.8vh 1vw;
+    color: rgb(43, 43, 43);
+    font-size: 1vw;
+    font-weight: 600;
+    background-color: var(--theme);
+    box-shadow: -4px -4px 4px var(--lighter),
+        4px 4px 4px var(--darker) !important;
+    z-index: 12;
+}
+
+.tooltip::after {
+    content: '';
+    position: absolute;
+    bottom: -1vw;
+    right: 10%;
+    border: 0.6vw solid;
+    border-color: var(--theme) transparent transparent transparent;
+    rotate: 90deg;
+    z-index: 10;
+}

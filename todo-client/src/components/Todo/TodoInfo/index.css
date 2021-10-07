@@ -1,0 +1,28 @@
+/* todoInfo style sheet */
+.info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 31.2vw;
+    margin-right: 2vw;
+}
+
+.state {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-top: 1vh;
+}
+
+.state>h2 {
+    margin: 0 0 0 0.6vw;
+    padding: 0;
+    font-weight: 500;
+    text-shadow: 4px 4px 4px rgba(88, 88, 88, 0.2);
+}
+
+.content {
+    padding: 0 1vw 0 2vw;
+    ;
+}
