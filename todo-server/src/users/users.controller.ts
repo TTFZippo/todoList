@@ -1,31 +1,32 @@
+import { ApiTags } from '@nestjs/swagger';
 /*
  * @Author: PacificD
  * @Date: 2021-10-07 22:36:14
  * @LastEditors: PacificD
- * @LastEditTime: 2021-10-07 22:48:35
+ * @LastEditTime: 2021-10-08 21:21:31
  * @Description: 
  */
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Delete } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
 
+@ApiTags('user')
 @Controller('user')
 export class UsersController {
   constructor(private readonly usersService: UsersService) { }
 
-  @Post()
-  create(@Body() createUserDto: CreateUserDto) {
-    return this.usersService.create(createUserDto);
+  @Post('register')
+  register(@Body() createUserDto: CreateUserDto) {
+    return this.usersService.register(createUserDto);
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.usersService.findOne(+id);
+  @Post('login')
+  login(@Body() createUserDto: CreateUserDto) {
+    return this.usersService.login(createUserDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
+  delete(@Param('id') id: string) {
     return this.usersService.remove(+id);
   }
 }

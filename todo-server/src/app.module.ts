@@ -8,12 +8,14 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UsersModule } from './users/users.module';
+import { TodoModule } from './todo/todo.module';
 import ormConfig from './config/ormConfig';
 
 @Module({
   imports: [
     TypeOrmModule.forRoot(ormConfig),
     UsersModule,
+    TodoModule,
   ],
   controllers: [],
   providers: [],
