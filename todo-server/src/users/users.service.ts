@@ -2,7 +2,7 @@
  * @Author: PacificD
  * @Date: 2021-10-07 22:36:14
  * @LastEditors: PacificD
- * @LastEditTime: 2021-10-08 20:11:04
+ * @LastEditTime: 2021-10-08 22:20:14
  * @Description: 
  */
 import { Injectable } from '@nestjs/common';
@@ -14,33 +14,62 @@ import { stateCode, Result } from "../config/resultType"
 
 @Injectable()
 export class UsersService {
+
   //inject usersRepository
   constructor(
     @InjectRepository(User)
     private userRepository: Repository<User>
   ) { }
 
-  async register(createUserDto: CreateUserDto): Promise<InsertResult> {
+
+  //findOne user by ID or userName
+  async findOne(param: number | string): Promise<boolean> {
+    let result: boolean;
+    if (typeof param === 'string') {
+      //userName
+      await this.userRepository.findOne({ userName: param as string })
+        .then(res => {
+          result = res ? true : false;
+        })
+    } else {
+      //id
+      await this.userRepository.findOne(param as number)
+        .then(res => {
+          result = res ? true : false;
+        })
+    }
+
+    return result;
+  }
+
+
+  async register(createUserDto: CreateUserDto): Promise<Result> {
+    let result: Result;
     console.log("create new user: ", JSON.stringify(createUserDto));
 
     let newUser = new User();
 
-    //set random ID
-    newUser.id = Math.round(Math.random() * (89999999) + 10000000);
-
+    let isID = true;
     //check ID
-    await this.userRepository.findOne(newUser.id).then((res) => {
-      if (res) {
-        console.log(`id: ${newUser.id} is already existed`);
-        newUser.id = Math.round(Math.random() * (89999999) + 10000000);
-      }
-    })
+    while (isID) {
+      //set random ID
+      newUser.id = Math.round(Math.random() * (89999999) + 10000000);
+      isID = await this.findOne(newUser.id);
+      console.log(`id: ${newUser.id} is already existed`);
+    }
 
     newUser.userName = createUserDto.userName;
     newUser.password = createUserDto.password;
 
-    return this.userRepository.insert(newUser);
+    //check userName
+    let isUserExisted = await this.findOne(newUser.userName);
+    result = isUserExisted ?
+      Result.fail(stateCode.EXISTED, "userName has been used!") :
+      Result.success(newUser);
+    !isUserExisted && this.userRepository.insert(newUser);
+    return result;
   }
+
 
   async login(createUserDto: CreateUserDto): Promise<Result> {
     let result: Result;
@@ -61,6 +90,7 @@ export class UsersService {
 
     return result;
   }
+
 
   async remove(id: number): Promise<void> {
     await this.userRepository.delete(id);
