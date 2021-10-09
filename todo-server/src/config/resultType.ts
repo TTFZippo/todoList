@@ -2,7 +2,7 @@
  * @Author: PacificD
  * @Date: 2021-10-08 19:16:47
  * @LastEditors: PacificD
- * @LastEditTime: 2021-10-08 22:09:51
+ * @LastEditTime: 2021-10-09 18:58:26
  * @Description: result type 
  */
 export enum stateCode {
@@ -10,6 +10,7 @@ export enum stateCode {
     UNEXPECT = 400, //未知错误
     NEED_AUTH = 401, //需要登录
     NO_FIND = 402, //找不到相关资源
+    BAD_REQUEST = 403, //请求错误
     EXISTED = 408, //字段已存在
     SEVER_ERR = 500, //服务器错误
 }

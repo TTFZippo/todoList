@@ -2,7 +2,7 @@
  * @Author: PacificD
  * @Date: 2021-10-07 11:53:54
  * @LastEditors: PacificD
- * @LastEditTime: 2021-10-09 09:34:18
+ * @LastEditTime: 2021-10-09 19:18:14
  * @Description: main.ts
  */
 
@@ -11,6 +11,8 @@
  * swagger
  * class-validator, class-transformer
  * typeorm 
+ * passport
+ * JWT
  */
 
 import { ValidationPipe } from '@nestjs/common';

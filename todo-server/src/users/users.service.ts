@@ -2,15 +2,18 @@
  * @Author: PacificD
  * @Date: 2021-10-07 22:36:14
  * @LastEditors: PacificD
- * @LastEditTime: 2021-10-09 09:55:32
+ * @LastEditTime: 2021-10-09 20:44:05
  * @Description: 
  */
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { InsertResult, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
 import { User } from './entities/user.entity';
 import { stateCode, Result } from "../config/resultType"
+import { resolve } from 'path/posix';
+import { JwtService } from '@nestjs/jwt';
+import { jwtConstants } from 'src/config/jwtConstants';
 
 @Injectable()
 export class UsersService {
@@ -18,7 +21,8 @@ export class UsersService {
   //inject usersRepository
   constructor(
     @InjectRepository(User)
-    private userRepository: Repository<User>
+    private userRepository: Repository<User>,
+    private readonly jwtService: JwtService,
   ) { }
 
 
@@ -72,19 +76,43 @@ export class UsersService {
 
   async login(createUserDto: CreateUserDto): Promise<Result> {
     let result: Result;
-    await this.userRepository.find({ userName: createUserDto.userName })
+    await this.userRepository.find({
+      userName: createUserDto.userName
+    })
       .then(res => {
         if (res.length > 0) {
-          result = Result.success({
-            id: res[0].id,
-            user: res[0].userName
-          })
+          return true;
         } else {
           result = Result.fail(stateCode.NO_FIND, "can not find user");
+          return false;
         }
       })
-      .catch(err => {
-        console.log("err: ", err);
+      .then(async (isUser) => {
+        if (!isUser) return;
+
+        await this.userRepository.find({
+          userName: createUserDto.userName,
+          password: createUserDto.password
+        })
+          .then(res => {
+            if (res.length > 0) {
+              //success
+              let token = this.jwtService.sign({
+                userName: createUserDto.userName,
+                password: createUserDto.password
+              });
+
+
+              result = Result.success({
+                id: res[0].id,
+                user: res[0].userName,
+                token: token
+              })
+            } else {
+              //password error
+              result = Result.fail(stateCode.BAD_REQUEST, "password error");
+            }
+          })
       })
 
     return result;
