@@ -2,7 +2,7 @@
  * @Author: PacificD
  * @Date: 2021-10-07 22:36:14
  * @LastEditors: PacificD
- * @LastEditTime: 2021-10-08 22:20:14
+ * @LastEditTime: 2021-10-09 09:55:32
  * @Description: 
  */
 import { Injectable } from '@nestjs/common';
@@ -55,7 +55,6 @@ export class UsersService {
       //set random ID
       newUser.id = Math.round(Math.random() * (89999999) + 10000000);
       isID = await this.findOne(newUser.id);
-      console.log(`id: ${newUser.id} is already existed`);
     }
 
     newUser.userName = createUserDto.userName;
@@ -92,7 +91,13 @@ export class UsersService {
   }
 
 
-  async remove(id: number): Promise<void> {
-    await this.userRepository.delete(id);
+  async remove(id: number): Promise<Result> {
+    let result: Result;
+    await this.userRepository.delete(id).then(res => {
+      result = res.affected ?
+        Result.success("successfully delete!") :
+        Result.fail(stateCode.NO_FIND, "error! user not exist!");
+    });
+    return result;
   }
 }

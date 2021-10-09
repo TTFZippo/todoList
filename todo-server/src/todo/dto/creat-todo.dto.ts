@@ -1,17 +1,20 @@
-
 /*
  * @Author: PacificD
  * @Date: 2021-10-08 20:01:32
  * @LastEditors: PacificD
- * @LastEditTime: 2021-10-08 21:14:32
+ * @LastEditTime: 2021-10-09 10:02:46
  * @Description: todo dto
  */
 import { ApiProperty } from '@nestjs/swagger';
+import { IsNotEmpty, IsNumberString } from 'class-validator';
 
 export class CreateTodoDto {
     @ApiProperty()
+    @IsNotEmpty()
     readonly content: string;
 
     @ApiProperty()
+    @IsNotEmpty()
+    @IsNumberString()
     readonly user: number;
 }

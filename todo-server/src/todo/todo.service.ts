@@ -3,7 +3,7 @@ import { UpdateTodoDto } from './dto/update-todo.dto';
  * @Author: PacificD
  * @Date: 2021-10-08 19:53:56
  * @LastEditors: PacificD
- * @LastEditTime: 2021-10-08 22:28:15
+ * @LastEditTime: 2021-10-09 10:03:11
  * @Description: 
  */
 import { Injectable, Res } from '@nestjs/common';
@@ -46,7 +46,6 @@ export class TodoService {
             //set random ID
             newTodo.id = Math.round(Math.random() * (89999999) + 10000000);
             isID = await this.findOne(newTodo.id);
-            console.log(`id: ${newTodo.id} is already existed`);
         }
 
         newTodo.content = createTodoDto.content;

@@ -2,10 +2,10 @@
  * @Author: PacificD
  * @Date: 2021-10-07 22:36:14
  * @LastEditors: PacificD
- * @LastEditTime: 2021-10-08 21:56:42
+ * @LastEditTime: 2021-10-09 09:38:52
  * @Description: 
  */
-import { Controller, Get, Post, Body, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Delete, ParseIntPipe } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { ApiTags } from '@nestjs/swagger';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -26,8 +26,8 @@ export class UsersController {
   }
 
   @Delete(':id')
-  delete(@Param('id') id: string) {
-    return this.usersService.remove(+id);
+  delete(@Param('id', ParseIntPipe) id: number) {
+    return this.usersService.remove(id);
   }
 
   //findUser by ID or userName
