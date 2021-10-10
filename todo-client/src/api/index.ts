@@ -2,7 +2,7 @@
  * @Author: PacificD
  * @Date: 2021-09-25 14:19:31
  * @LastEditors: PacificD
- * @LastEditTime: 2021-10-09 21:00:13
+ * @LastEditTime: 2021-10-10 15:32:36
  * @Description: axios底层封装
  */
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios'
@@ -10,7 +10,7 @@ import { showMessage } from "./status"
 
 const axiosInstance: AxiosInstance = axios.create({
     headers: {
-        "Content-Type": 'application/json;charset=utf-8'
+        "Content-Type": 'application/json;charset=utf-8',
     },
     // 是否跨站点访问控制请求
     withCredentials: true,

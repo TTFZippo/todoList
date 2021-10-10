@@ -2,13 +2,12 @@
  * @Author: PacificD
  * @Date: 2021-10-09 21:23:53
  * @LastEditors: PacificD
- * @LastEditTime: 2021-10-10 15:12:24
+ * @LastEditTime: 2021-10-10 16:12:06
  * @Description: login tsx
  */
 import { FC, ReactElement, useRef, useState } from "react";
 import "./index.css"
-import { loginAPI } from "../../api/services/userApi"
-import axiosInstance from "../../api";
+import { loginAPI, registerAPI } from "../../api/services/userApi"
 import Alert from "../Alert"
 import { IErrorAlert } from "../../types/errorAlert";
 
@@ -33,6 +32,33 @@ const Login: FC<IProps> = ({
         theme: "message"
     });
     let [loginMode, setLoginMode] = useState<boolean>(true);
+    let timer = useRef<any>({ error: null, success: null });
+
+    /**
+     * @description: throttle timer
+     * @param {IErrorAlert} config
+     * @return {*}
+     * @author: PacificD
+     */
+    const toggleAlert = (config: IErrorAlert): void => {
+        //config error
+        errorConfig.current = {
+            msg: config.msg,
+            theme: config.theme
+        };
+
+        //show alert and clear alert
+        if (!timer.current.error) {
+            setError(true);
+            timer.current.error = setTimeout(() => {
+                setError(false);
+                clearTimeout(timer.current.error);
+                timer.current.error = null;
+            }, 3000);
+        } else {
+            return;
+        }
+    }
 
     //switch 1.login | 2.register
     const switchMode = (toMode: boolean) => {
@@ -47,69 +73,88 @@ const Login: FC<IProps> = ({
         }, 500);
     }
 
-    let timer = useRef<any>();
-    //submit
-    const sumbit = (loginMode: boolean) => {
 
+    /**
+     * @description: sumbit function
+     * @param {boolean} loginMode
+     * @return {*}
+     * @author: PacificD
+     */
+    const sumbit = async (loginMode: boolean) => {
         let userName = userRef.current!.value.trim(),
             password = passwordRef.current!.value.trim();
 
         if (userName.length < 2 || userName.length > 16) {
-            errorConfig.current = {
+            toggleAlert({
                 msg: "错误！账号长度 2 ~ 16",
                 theme: "error"
-            };
-
-            //show alert and clear alert
-            if (!timer.current) {
-                setError(true);
-                timer.current = setTimeout(() => {
-                    setError(false);
-                    clearTimeout(timer.current);
-                    timer.current = null;
-                }, 3000);
-            } else {
-                return;
-            }
-
+            });
             return;
+
         } else if (password.length < 6 || password.length > 16) {
-            errorConfig.current = {
+            toggleAlert({
                 msg: "错误！密码长度 6 ~ 16",
                 theme: "error"
-            };
-            //show alert and clear alert
-            if (!timer.current) {
-                setError(true);
-                timer.current = setTimeout(() => {
-                    setError(false);
-                    clearTimeout(timer.current);
-                    timer.current = null;
-                }, 3000);
-            } else {
-                return;
-            }
-
+            });
             return;
         }
 
-        //success -> sumbit
-        // axiosInstance.post(
-        //     "http://localhost:4096/user/login"
-        //     , {
-        //         userName: userName,
-        //         password: password
-        //     }).then(res => {
-        //         console.log(res);
+        //success -> sumbit login | register
+        if (!timer.current.success) {
+            if (loginMode) {
+                //login
+                loginAPI({
+                    userName: userName,
+                    password: password
+                }).then(res => {
+                    console.log(res);
 
-        //     })
-        loginAPI({
-            userName: userName,
-            password: password
-        }).then(res => {
-            console.log(res);
+                    switch (res.code) {
+                        case 200: //success
+                            toggleAlert({
+                                msg: "登录成功！",
+                                theme: "success"
+                            });
+                            //注册成功，自动登录，页面自动跳转
+                            //将user信息填入sessionStorage，reducer中
+                            break;
+                        case 402: //user not exist
+                            toggleAlert({
+                                msg: "用户不存在！",
+                                theme: "error"
+                            });
+                            break;
+                        case 403: //password error
+                            toggleAlert({
+                                msg: "密码错误！",
+                                theme: "error"
+                            });
+                            break;
+                        default: break;
+                    }
+                }).catch(err => {
+                    console.log(err);
+                })
 
-        })
+            } else {
+                //register
+                registerAPI({
+                    userName: userName,
+                    password: password
+                }).then(res => {
+                    console.log(res);
+                    //注册成功，自动登录，页面自动跳转
+                    //将user信息填入sessionStorage，reducer中
+                })
+            }
+            timer.current.success = setTimeout(() => {
+                clearTimeout(timer.current.success);
+                timer.current.success = null;
+            }, 2000);
+        } else {
+            return;
+        }
+
     }
 
     return (
