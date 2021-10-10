@@ -8,3 +8,12 @@
     height: 100vh;
     background-color: var(--theme);
 }
+
+.mask {
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    z-index: 18;
+    background-color: rgb(99, 99, 99);
+    opacity: 0.8;
+}
