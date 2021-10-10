@@ -2,7 +2,7 @@
  * @Author: PacificD
  * @Date: 2021-10-08 20:01:32
  * @LastEditors: PacificD
- * @LastEditTime: 2021-10-09 10:02:46
+ * @LastEditTime: 2021-10-09 21:10:35
  * @Description: todo dto
  */
 import { ApiProperty } from '@nestjs/swagger';

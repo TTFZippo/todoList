@@ -3,23 +3,24 @@ import { UpdateTodoDto } from './dto/update-todo.dto';
  * @Author: PacificD
  * @Date: 2021-10-08 19:53:56
  * @LastEditors: PacificD
- * @LastEditTime: 2021-10-09 10:03:11
+ * @LastEditTime: 2021-10-09 21:09:12
  * @Description: 
  */
-import { Injectable, Res } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, InsertResult } from 'typeorm';
 import { Todo } from './entities/todo.entity';
 import { CreateTodoDto } from './dto/creat-todo.dto';
 import getTime from 'src/utils/time';
 import { Result, stateCode } from 'src/config/resultType';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class TodoService {
 
     //inject todoRepository
     constructor(@InjectRepository(Todo)
-    private todoRepository: Repository<Todo>
+    private todoRepository: Repository<Todo>,
     ) { }
 
 
@@ -88,7 +89,8 @@ export class TodoService {
             body.id,
             {
                 content: body.content,
-                time: getTime()
+                time: getTime(),
+                state: body.state
             }
         ).then(res => {
             result = res.affected ?

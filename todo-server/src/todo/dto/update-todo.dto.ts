@@ -2,7 +2,7 @@
  * @Author: PacificD
  * @Date: 2021-10-08 20:13:25
  * @LastEditors: PacificD
- * @LastEditTime: 2021-10-09 10:04:04
+ * @LastEditTime: 2021-10-09 21:05:24
  * @Description: update todo dto
  */
 import { ApiProperty } from '@nestjs/swagger';
@@ -17,4 +17,9 @@ export class UpdateTodoDto {
     @ApiProperty()
     @IsNotEmpty()
     readonly content: string;
+
+    @ApiProperty()
+    @IsNotEmpty()
+    @IsNumberString()
+    readonly state: number; //0. todo 1. done
 }
