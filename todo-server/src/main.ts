@@ -2,7 +2,7 @@
  * @Author: PacificD
  * @Date: 2021-10-07 11:53:54
  * @LastEditors: PacificD
- * @LastEditTime: 2021-10-09 19:18:14
+ * @LastEditTime: 2021-10-10 15:32:24
  * @Description: main.ts
  */
 
@@ -29,6 +29,13 @@ const port = 4096;
   app.useGlobalPipes(new ValidationPipe({
     whitelist: true,
   }));
+
+  //开启CORS
+  app.enableCors({
+    credentials: true,
+    methods: "GET,POST,PATCH,DELETE",
+    origin: ["http://localhost:3000",]
+  });
 
   //配置swagger
   const options = new DocumentBuilder()

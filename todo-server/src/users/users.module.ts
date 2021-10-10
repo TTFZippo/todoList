@@ -2,7 +2,7 @@
  * @Author: PacificD
  * @Date: 2021-10-07 22:36:14
  * @LastEditors: PacificD
- * @LastEditTime: 2021-10-09 20:22:09
+ * @LastEditTime: 2021-10-10 15:41:23
  * @Description: 
  */
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -19,7 +19,7 @@ import { JwtStrategy } from './jwt.strategy';
   JwtModule.register({
     secret: jwtConstants.secret,
     signOptions: {
-      expiresIn: '1d' //token expires time
+      expiresIn: '30s' //token expires time
     }
   })],
   controllers: [UsersController],
